@@ -1,0 +1,73 @@
+#container {
+  width: 840px;
+  height: 718px;
+  border: solid gray 1px;
+  margin-left: 15px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: inset 2px 2px 2px -1px rgba(89,87,89,0.5);
+}
+
+#can {
+  width: 700px;
+  height: 700px;
+  border: solid gray 1px;
+  margin: 8px 8px 0px 5px;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  margin-top: 10px;
+  width: 120px;
+  height: 25px;
+  border: 0.2px solid gray;
+}
+
+/* The Modal (background) */
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   left: 0;
+   top: 0;
+   width: 100%; /* Full width */
+   height: 100%; /* Full height */
+   overflow: auto; /* Enable scroll if needed */
+   background-color: rgb(252, 248, 255); /* Fallback color */
+   background-color: rgba(252, 248, 255,0.35); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+   color: #404040;
+   font-weight: bold;
+   text-align: center;
+   background-color: #eaecec;
+   margin: 20% auto; /* 15% from the top and centered */
+   padding: 20px;
+   border: 1px solid #595959;
+   width: 25%; /* Could be more or less, depending on screen size */
+   height: 50%;
+}
+
+/* The Close Button */
+.close {
+   color: #aaa;
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+   margin-right: -20px;
+   margin-top: -25px;
+}
+
+.close:hover,
+.close:focus {
+   color: black;
+   text-decoration: none;
+   cursor: pointer;
+}
