@@ -1,6 +1,6 @@
 const fieldSize = 700;
-const numberOfCellsInRow = 20;
-const framesPerSecond = 50.1;
+const numberOfCellsInRow = 30;
+const framesPerSecond = 5.01;
 const canvas = document.getElementById('can');
 const ctx = canvas.getContext('2d');
 canvas.width = canvas.offsetWidth;
@@ -9,19 +9,32 @@ var modal = document.getElementById('myModal');
 var span = document.getElementsByClassName("close")[0];
 var checkCountBug = 0;
 var checkBug = 0;
+var checkManual = 0;
 
 const getRandomGrid  = () => {
   const grid = new Array (numberOfCellsInRow);
   for (let i = 0; i < grid.length; i++) {
     grid[i] = new Array (numberOfCellsInRow);
     for (let j = 0; j < grid.length; j++) {
-      grid[i][j] = Math.floor(Math.random() * 2);
+      grid[i][j] = 0;
     }
   }
   return grid;
 }
 
+const getRandomGridWithRandomCells  = () => {
+  const gridRandom = new Array (numberOfCellsInRow);
+    for (let i = 0; i < gridRandom.length; i++) {
+      gridRandom[i] = new Array (numberOfCellsInRow);
+      for (let j = 0; j < gridRandom.length; j++) {
+        gridRandom[i][j] = Math.floor(Math.random() * 2);
+      }
+    }
+    return gridRandom;
+}
+
 const grid = getRandomGrid();
+const gridRandom = getRandomGridWithRandomCells();
 const cellSize = fieldSize / numberOfCellsInRow;
 
 const drawGrid = (ctx, grid) => {
@@ -85,15 +98,8 @@ const countNeigbors = (grid, x, y) => {
 
 const arrSum = arr => arr.reduce((a,b) => a + b, 0);
 
-function stopGame(ctx) {
-    ctx.clearRect(0, 0, fieldSize, fieldSize);
-    drawGrid(ctx, grid);
-    cancelAnimationFrame();
-}
-
 const generation = (ctx, grid) => {
   checkCountBug++;
-  let test = [];
   if (checkCountBug % 2 === 0) {
    checkBug = arrSum(grid);
   }
@@ -111,27 +117,52 @@ const generation = (ctx, grid) => {
 }
 
 function start() {
+  checkManual++;
   generation(ctx, grid);
 }
 
 function restart() {
   ctx.clearRect(0, 0, fieldSize, fieldSize);
-  const more = getRandomGrid();
+  const more = getRandomGridWithRandomCells();
   drawLife(ctx, more);
   generation(ctx, more);
+}
+
+function random() {
+  ctx.clearRect(0, 0, fieldSize, fieldSize);
+  drawLife(ctx, gridRandom);
+  generation(ctx, gridRandom);
 }
 
 drawGrid(ctx, grid);
 document.getElementById('start').onclick = start;
 document.getElementById('reset').onclick = restart;
+document.getElementById('random').onclick = random;
 
- function modalWindow(ctx) {
-   modal.style.display = "block";
-   cancelAnimationFrame();
+function modalWindow(ctx) {
+  console.log(checkCountBug);
+  if (checkCountBug < 3 ) {
+    alert('Поставьте больше живих клеток');
+  }
+  modal.style.display = "block";
+  cancelAnimationFrame();
 }
 
 span.onclick = function() {
+  if (checkManual === 1) {
+    window.location.reload();
+  }
   ctx.clearRect(0, 0, fieldSize, fieldSize);
   drawGrid(ctx, grid);
   modal.style.display = "none";
+}
+
+canvas.onclick = function (event) {
+  var x = event.offsetX;
+  var y = event.offsetY;
+  x = Math.floor(x/cellSize);
+  y = Math.floor(y/cellSize);
+  grid[x][y] = 1;
+  ctx.clearRect(0, 0, fieldSize, fieldSize);
+  drawLife(ctx, grid);
 }
